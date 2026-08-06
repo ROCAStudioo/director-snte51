@@ -1,0 +1,215 @@
+@import "tailwindcss";
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=Poppins:wght@300;400;500;600;700;800;900&display=swap');
+
+:root {
+  --background: #ffffff;
+  --foreground: #171717;
+  --orange-primary: #F47920;
+  --orange-light: #FF9A3C;
+  --orange-dark: #D4651A;
+  --orange-pale: #FFF4EA;
+  --gray-light: #F8F9FA;
+  --gray-medium: #E9ECEF;
+  --gray-dark: #6C757D;
+  --text-primary: #1A1A2E;
+  --text-secondary: #4A5568;
+}
+
+@theme inline {
+  --color-background: var(--background);
+  --color-foreground: var(--foreground);
+}
+
+* {
+  box-sizing: border-box;
+  padding: 0;
+  margin: 0;
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  background: var(--background);
+  color: var(--foreground);
+  font-family: 'Inter', 'Poppins', sans-serif;
+  overflow-x: hidden;
+}
+
+/* Custom scrollbar */
+::-webkit-scrollbar {
+  width: 6px;
+}
+::-webkit-scrollbar-track {
+  background: #f1f1f1;
+}
+::-webkit-scrollbar-thumb {
+  background: #F47920;
+  border-radius: 3px;
+}
+::-webkit-scrollbar-thumb:hover {
+  background: #D4651A;
+}
+
+/* Glassmorphism */
+.glass {
+  background: rgba(255, 255, 255, 0.85);
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+  border: 1px solid rgba(255, 255, 255, 0.3);
+}
+
+.glass-orange {
+  background: rgba(244, 121, 32, 0.08);
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+  border: 1px solid rgba(244, 121, 32, 0.15);
+}
+
+/* Gradient text */
+.gradient-text {
+  background: linear-gradient(135deg, #F47920 0%, #FF9A3C 50%, #D4651A 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+/* Orange gradient bg */
+.gradient-orange {
+  background: linear-gradient(135deg, #F47920 0%, #FF9A3C 100%);
+}
+
+/* Shadow utilities */
+.shadow-card {
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08), 0 1px 4px rgba(0, 0, 0, 0.04);
+}
+
+.shadow-card-hover {
+  box-shadow: 0 20px 60px rgba(244, 121, 32, 0.15), 0 8px 20px rgba(0, 0, 0, 0.1);
+}
+
+/* Line clamp */
+.line-clamp-2 {
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+
+.line-clamp-3 {
+  display: -webkit-box;
+  -webkit-line-clamp: 3;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+
+/* Swiper custom */
+.swiper-pagination-bullet-active {
+  background: #F47920 !important;
+}
+
+/* Leaflet map */
+.leaflet-container {
+  border-radius: 16px;
+  font-family: 'Inter', sans-serif;
+}
+
+/* Section spacing */
+section {
+  scroll-margin-top: 80px;
+}
+
+/* Pattern background */
+.pattern-bg {
+  background-image: 
+    radial-gradient(circle at 25% 25%, rgba(244, 121, 32, 0.04) 0%, transparent 50%),
+    radial-gradient(circle at 75% 75%, rgba(244, 121, 32, 0.04) 0%, transparent 50%);
+}
+
+/* Animated underline */
+.animated-underline {
+  position: relative;
+}
+.animated-underline::after {
+  content: '';
+  position: absolute;
+  bottom: -4px;
+  left: 0;
+  width: 0;
+  height: 2px;
+  background: #F47920;
+  transition: width 0.3s ease;
+}
+.animated-underline:hover::after {
+  width: 100%;
+}
+
+/* Timeline */
+.timeline-item::before {
+  content: '';
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  transform: translate(-50%, -50%);
+  width: 16px;
+  height: 16px;
+  border-radius: 50%;
+  background: #F47920;
+  border: 3px solid white;
+  box-shadow: 0 0 0 3px rgba(244, 121, 32, 0.2);
+  z-index: 10;
+}
+
+/* Masonry gallery */
+.masonry-grid {
+  column-count: 3;
+  column-gap: 16px;
+}
+.masonry-item {
+  break-inside: avoid;
+  margin-bottom: 16px;
+}
+
+@media (max-width: 768px) {
+  .masonry-grid {
+    column-count: 2;
+  }
+}
+@media (max-width: 480px) {
+  .masonry-grid {
+    column-count: 1;
+  }
+}
+
+/* Form input styles */
+.form-input {
+  width: 100%;
+  padding: 12px 16px;
+  border: 1.5px solid #E9ECEF;
+  border-radius: 12px;
+  font-family: 'Inter', sans-serif;
+  font-size: 14px;
+  color: #1A1A2E;
+  background: #FAFAFA;
+  transition: all 0.2s ease;
+  outline: none;
+}
+.form-input:focus {
+  border-color: #F47920;
+  background: white;
+  box-shadow: 0 0 0 3px rgba(244, 121, 32, 0.1);
+}
+.form-input::placeholder {
+  color: #ADB5BD;
+}
+
+/* Admin sidebar */
+.admin-sidebar {
+  background: linear-gradient(180deg, #1A1A2E 0%, #16213E 100%);
+}
+
+/* Lightbox override */
+.yarl__container {
+  background: rgba(0, 0, 0, 0.95) !important;
+}
