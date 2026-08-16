@@ -7,8 +7,6 @@ export const metadata: Metadata = {
   keywords: ["Fondo de Ahorro", "SNTE Sección 51", "Puebla", "Director General", "Omar Castañeda", "Magisterio Poblano"],
   authors: [{ name: "Fondo de Ahorro SNTE Sección 51" }],
   robots: "index, follow",
-  // Viewport explícito para que el browser calcule bien el ancho
-  viewport: "width=device-width, initial-scale=1, maximum-scale=5",
   openGraph: {
     type: "website",
     locale: "es_MX",

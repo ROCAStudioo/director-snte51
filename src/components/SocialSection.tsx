@@ -75,7 +75,8 @@ export default function SocialSection() {
         {/* Social posts grid */}
         <div className={`grid grid-cols-1 sm:grid-cols-2 gap-6 max-w-3xl mx-auto transition-all duration-700 delay-300 ${visible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-8'}`}>
           {socialPosts.map((post, index) => {
-            const config = platformConfig[post.platform];
+            const config = platformConfig[post.platform as keyof typeof platformConfig];
+            if (!config) return null;
             return (
               <div
                 key={post.id}
