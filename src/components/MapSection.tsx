@@ -2,13 +2,18 @@
 
 import { useRef, useEffect, useState } from 'react';
 import { MapPin, Users, Calendar, ChevronRight, Map } from 'lucide-react';
-import { regions } from '@/data/site-data';
+import { regions as staticRegions } from '@/data/site-data';
 import type { Region } from '@/types';
 
 export default function MapSection() {
   const sectionRef = useRef<HTMLElement>(null);
   const [visible, setVisible] = useState(false);
   const [selectedRegion, setSelectedRegion] = useState<Region | null>(null);
+  const [regions, setRegions] = useState(staticRegions);
+
+  useEffect(() => {
+    fetch('/api/regions').then(r => r.json()).then(data => { if (data.length > 0) setRegions(data); }).catch(() => {});
+  }, []);
 
   useEffect(() => {
     const observer = new IntersectionObserver(

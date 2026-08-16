@@ -2,7 +2,7 @@
 
 import { useRef, useEffect, useState } from 'react';
 import { Camera, Grid3X3, Play, X, ChevronLeft, ChevronRight, ZoomIn } from 'lucide-react';
-import { galleryItems } from '@/data/site-data';
+import { galleryItems as staticGallery } from '@/data/site-data';
 import type { GalleryItem } from '@/types';
 
 const categoryFilters: { key: string; label: string }[] = [
@@ -28,7 +28,12 @@ export default function GallerySection() {
   const [lightboxOpen, setLightboxOpen] = useState(false);
   const [lightboxIndex, setLightboxIndex] = useState(0);
 
+  const [galleryItems, setGalleryItems] = useState(staticGallery);
   const filtered = galleryItems;
+
+  useEffect(() => {
+    fetch('/api/gallery').then(r => r.json()).then(data => { if (data.length > 0) setGalleryItems(data); }).catch(() => {});
+  }, []);
 
   useEffect(() => {
     const observer = new IntersectionObserver(

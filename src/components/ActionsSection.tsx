@@ -2,15 +2,21 @@
 
 import { useRef, useEffect, useState } from 'react';
 import { Calendar, ArrowRight, Zap, Filter } from 'lucide-react';
-import { actionCards } from '@/data/site-data';
-
-const categories = ['Todos', ...Array.from(new Set(actionCards.map(a => a.category)))];
+import { actionCards as staticActions } from '@/data/site-data';
+import type { ActionCard } from '@/types';
 
 export default function ActionsSection() {
   const sectionRef = useRef<HTMLElement>(null);
   const [visible, setVisible] = useState(false);
   const [activeCategory, setActiveCategory] = useState('Todos');
   const [hoveredCard, setHoveredCard] = useState<number | null>(null);
+  const [actionCards, setActionCards] = useState(staticActions);
+
+  useEffect(() => {
+    fetch('/api/actions').then(r => r.json()).then(data => { if (data.length > 0) setActionCards(data); }).catch(() => {});
+  }, []);
+
+  const categories = ['Todos', ...Array.from(new Set(actionCards.map(a => a.category)))];
 
   useEffect(() => {
     const observer = new IntersectionObserver(

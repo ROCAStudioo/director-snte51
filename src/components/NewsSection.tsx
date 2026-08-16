@@ -2,15 +2,20 @@
 
 import { useRef, useEffect, useState } from 'react';
 import { Calendar, Tag, ArrowRight, Newspaper, Search } from 'lucide-react';
-import { newsItems } from '@/data/site-data';
+import { newsItems as staticNews } from '@/data/site-data';
 
-const categories = ['Todas', ...Array.from(new Set(newsItems.map(n => n.category)))];
+const categories = ['Todas'];
 
 export default function NewsSection() {
   const sectionRef = useRef<HTMLElement>(null);
   const [visible, setVisible] = useState(false);
   const [activeCategory, setActiveCategory] = useState('Todas');
   const [searchQuery, setSearchQuery] = useState('');
+  const [newsItems, setNewsItems] = useState(staticNews);
+
+  useEffect(() => {
+    fetch('/api/news').then(r => r.json()).then(data => { if (data.length > 0) setNewsItems(data); }).catch(() => {});
+  }, []);
 
   useEffect(() => {
     const observer = new IntersectionObserver(

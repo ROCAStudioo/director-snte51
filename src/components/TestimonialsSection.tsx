@@ -2,13 +2,18 @@
 
 import { useRef, useEffect, useState } from 'react';
 import { Quote, Star, ChevronLeft, ChevronRight, MessageSquare } from 'lucide-react';
-import { testimonials } from '@/data/site-data';
+import { testimonials as staticTestimonials } from '@/data/site-data';
 
 export default function TestimonialsSection() {
   const sectionRef = useRef<HTMLElement>(null);
   const [visible, setVisible] = useState(false);
   const [current, setCurrent] = useState(0);
   const [isAutoPlaying, setIsAutoPlaying] = useState(true);
+  const [testimonials, setTestimonials] = useState(staticTestimonials);
+
+  useEffect(() => {
+    fetch('/api/testimonials').then(r => r.json()).then(data => { if (data.length > 0) setTestimonials(data.filter((t: any) => t.approved)); }).catch(() => {});
+  }, []);
 
   useEffect(() => {
     const observer = new IntersectionObserver(

@@ -2,7 +2,7 @@
 
 import { useRef, useEffect, useState } from 'react';
 import { Users, Map, BarChart3, Star, TrendingUp } from 'lucide-react';
-import { statCounters } from '@/data/site-data';
+import { statCounters as staticStats } from '@/data/site-data';
 
 const iconMap: Record<string, React.ComponentType<{size?: number; className?: string}>> = {
   users: Users,
@@ -55,6 +55,11 @@ function AnimatedCounter({ target, suffix, prefix, duration = 2000 }: {
 export default function StatsSection() {
   const sectionRef = useRef<HTMLElement>(null);
   const [visible, setVisible] = useState(false);
+  const [statCounters, setStatCounters] = useState(staticStats);
+
+  useEffect(() => {
+    fetch('/api/stats').then(r => r.json()).then(data => { if (data.length > 0) setStatCounters(data); }).catch(() => {});
+  }, []);
 
   useEffect(() => {
     const observer = new IntersectionObserver(
