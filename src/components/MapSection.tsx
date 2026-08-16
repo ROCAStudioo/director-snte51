@@ -40,23 +40,23 @@ export default function MapSection() {
           {/* Map placeholder */}
           <div className="lg:col-span-2">
             <div className="relative bg-gradient-to-br from-orange-50 to-blue-50 rounded-2xl overflow-hidden shadow-card border border-gray-100" style={{ minHeight: '480px' }}>
-              {/* SVG Map of Puebla (simplified) */}
+              {/* SVG Map of Puebla - contorno real basado en GeoJSON oficial */}
               <div className="absolute inset-0 flex items-center justify-center">
-                <svg viewBox="0 0 500 400" className="w-full h-full p-8">
-                  {/* Puebla state outline (simplified) */}
+                <svg viewBox="0 0 500 400" className="w-full h-full p-4">
+                  {/* Contorno real del estado de Puebla (CONABIO 2023) */}
                   <path
-                    d="M150,80 L180,60 L230,55 L280,70 L320,65 L360,80 L380,110 L370,140 L390,170 L380,210 L360,240 L330,260 L300,280 L270,300 L240,310 L210,300 L180,280 L150,260 L130,230 L120,200 L110,170 L120,140 L130,110 Z"
-                    fill="rgba(244,121,32,0.08)"
-                    stroke="rgba(244,121,32,0.3)"
-                    strokeWidth="2"
+                    d="M 269.9 29.9 L 275.9 34.3 L 270.1 49.8 L 288.5 61.2 L 304.8 67.5 L 285.1 76.8 L 266.9 80.3 L 278.2 91.4 L 288.2 104.9 L 299 106.2 L 320.9 108.6 L 327.1 98.5 L 345.7 99.1 L 390 105.9 L 367.7 127.2 L 355.6 155.2 L 343.9 167 L 339 183.1 L 347.8 197 L 377.9 198.9 L 390.4 203.4 L 421.6 207.5 L 408.7 217.7 L 391.1 221.6 L 367.9 229.2 L 363 240.7 L 360.3 256.8 L 353.8 268.1 L 365.2 283.3 L 391.5 287.9 L 420.2 295 L 440.1 293.1 L 463.7 306.9 L 455.6 319.5 L 437.9 329 L 424.6 329.8 L 402.2 339.5 L 372.5 336.7 L 337.8 344.9 L 306.4 346.1 L 291.5 335 L 263.3 323.6 L 252.1 336.9 L 252.6 353 L 260.2 352.6 L 266.4 359.5 L 239.4 367.3 L 221.1 359.7 L 194 359.3 L 170.6 370.9 L 153.7 370.7 L 131.9 365.8 L 115.2 357.5 L 82.4 361.2 L 46 350.1 L 28.6 334.9 L 13.6 325.2 L 32.1 307.8 L 57.8 296.5 L 78.4 298.8 L 71.8 275 L 74.4 263.2 L 82.2 257.1 L 90.3 240.5 L 92.2 231.6 L 91.9 221.2 L 87.2 202.9 L 93 190.6 L 111.6 187.1 L 122.6 195.4 L 137.9 206.8 L 152 219.1 L 162.4 220.5 L 175.1 224.6 L 199.9 221.7 L 224.2 218.3 L 247 211.2 L 255.9 205.3 L 290.7 205.1 L 272.8 190.4 L 261.1 182.8 L 246 177.7 L 221.2 167.5 L 199.9 162.7 L 168.9 157.2 L 166.5 142.7 L 166.4 134.3 L 183.8 119.2 L 192.8 107.5 L 181.6 94.6 L 181.9 90.4 L 200 80.1 L 217.4 70.3 L 238.1 56.4 L 235.5 41.3 L 255.3 30.4 Z"
+                    fill="rgba(244,121,32,0.10)"
+                    stroke="rgba(244,121,32,0.5)"
+                    strokeWidth="1.5"
                     strokeLinejoin="round"
                   />
-                  
+
                   {/* Region dots */}
                   {regions.map((region) => {
-                    // Map coords to SVG viewport
-                    const svgX = ((region.lng - (-99.5)) / ((-96.5) - (-99.5))) * 400 + 50;
-                    const svgY = ((region.lat - 17.8) / (20.8 - 17.8)) * 320 + 40;
+                    // Misma proyección que el path: minLon=-99.0, maxLon=-96.7, minLat=17.8, maxLat=20.9
+                    const svgX = 20 + (region.lng - (-99.0)) / 2.3 * 460;
+                    const svgY = 380 - (region.lat - 17.8) / 3.1 * 360;
                     const isSelected = selectedRegion?.id === region.id;
 
                     return (

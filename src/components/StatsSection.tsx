@@ -89,7 +89,7 @@ export default function StatsSection() {
         </div>
 
         {/* Stats grid */}
-        <div className="grid grid-cols-2 lg:grid-cols-4 gap-6">
+        <div className="grid grid-cols-3 gap-6 max-w-3xl mx-auto">
           {statCounters.map((stat, index) => {
             const IconComponent = iconMap[stat.icon] || Star;
             return (

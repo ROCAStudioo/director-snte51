@@ -1,0 +1,199 @@
+// ============================================
+// PRISMA SCHEMA - Fondo de Ahorro SNTE 51
+// Base de datos: PostgreSQL
+// ============================================
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+// =====================
+// AUTENTICACIÓN
+// =====================
+
+model User {
+  id        Int      @id @default(autoincrement())
+  email     String   @unique
+  name      String
+  password  String   // Hashed with bcrypt
+  role      UserRole @default(EDITOR)
+  active    Boolean  @default(true)
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@index([email])
+}
+
+enum UserRole {
+  ADMIN
+  EDITOR
+  VIEWER
+}
+
+// =====================
+// NOTICIAS
+// =====================
+
+model News {
+  id        Int      @id @default(autoincrement())
+  title     String
+  summary   String   @db.Text
+  content   String   @db.Text
+  slug      String   @unique
+  image     String?
+  category  String
+  featured  Boolean  @default(false)
+  published Boolean  @default(true)
+  date      String
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@index([slug])
+  @@index([category])
+  @@index([published])
+}
+
+// =====================
+// ACCIONES
+// =====================
+
+model Action {
+  id          Int      @id @default(autoincrement())
+  title       String
+  description String   @db.Text
+  slug        String   @unique
+  image       String?
+  category    String
+  date        String
+  published   Boolean  @default(true)
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+
+  @@index([slug])
+  @@index([category])
+}
+
+// =====================
+// GALERÍA
+// =====================
+
+model GalleryItem {
+  id        Int              @id @default(autoincrement())
+  src       String
+  alt       String
+  category  GalleryCategory
+  type      MediaType        @default(IMAGE)
+  width     Int?
+  height    Int?
+  sortOrder Int              @default(0)
+  published Boolean          @default(true)
+  createdAt DateTime         @default(now())
+
+  @@index([category])
+}
+
+enum GalleryCategory {
+  REGIONAL
+  EVENTS
+  MEETINGS
+  CONFERENCES
+  TRAINING
+}
+
+enum MediaType {
+  IMAGE
+  VIDEO
+}
+
+// =====================
+// TRANSPARENCIA
+// =====================
+
+model TransparencyDoc {
+  id        Int      @id @default(autoincrement())
+  title     String
+  type      DocType
+  date      String
+  size      String?
+  url       String
+  published Boolean  @default(true)
+  sortOrder Int      @default(0)
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@index([type])
+}
+
+enum DocType {
+  REPORT
+  ANNOUNCEMENT
+  REGULATION
+  FINANCIAL
+  OFFICIAL
+}
+
+// =====================
+// TESTIMONIOS
+// =====================
+
+model Testimonial {
+  id           Int      @id @default(autoincrement())
+  name         String
+  municipality String
+  role         String
+  comment      String   @db.Text
+  avatar       String?
+  approved     Boolean  @default(false)
+  sortOrder    Int      @default(0)
+  createdAt    DateTime @default(now())
+
+  @@index([approved])
+}
+
+// =====================
+// REGIONES ATENDIDAS
+// =====================
+
+model Region {
+  id          String    @id
+  name        String
+  lat         Float
+  lng         Float
+  photo       String?
+  date        String
+  services    String[]
+  attendees   Int       @default(0)
+  description String?
+  active      Boolean   @default(true)
+  createdAt   DateTime  @default(now())
+  updatedAt   DateTime  @updatedAt
+}
+
+// =====================
+// ESTADÍSTICAS
+// =====================
+
+model Stat {
+  id        Int      @id @default(autoincrement())
+  label     String
+  value     Int
+  prefix    String   @default("")
+  suffix    String   @default("")
+  icon      String   @default("star")
+  sortOrder Int      @default(0)
+  updatedAt DateTime @updatedAt
+}
+
+// =====================
+// CONFIGURACIÓN DEL SITIO
+// =====================
+
+model SiteConfig {
+  id    String @id
+  value String @db.Text
+}

@@ -25,16 +25,6 @@ const platformConfig = {
       </svg>
     ),
   },
-  youtube: {
-    name: 'YouTube',
-    color: 'bg-red-600',
-    lightColor: 'bg-red-50 text-red-600 border-red-200',
-    icon: () => (
-      <svg viewBox="0 0 24 24" className="w-5 h-5 fill-current">
-        <path d="M23.495 6.205a3.007 3.007 0 0 0-2.088-2.088c-1.87-.501-9.396-.501-9.396-.501s-7.507-.01-9.396.501A3.007 3.007 0 0 0 .527 6.205a31.247 31.247 0 0 0-.522 5.805 31.247 31.247 0 0 0 .522 5.783 3.007 3.007 0 0 0 2.088 2.088c1.868.502 9.396.502 9.396.502s7.506 0 9.396-.502a3.007 3.007 0 0 0 2.088-2.088 31.247 31.247 0 0 0 .5-5.783 31.247 31.247 0 0 0-.5-5.805zM9.609 15.601V8.408l6.264 3.602z"/>
-      </svg>
-    ),
-  },
 };
 
 export default function SocialSection() {
@@ -83,7 +73,7 @@ export default function SocialSection() {
         </div>
 
         {/* Social posts grid */}
-        <div className={`grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 transition-all duration-700 delay-300 ${visible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-8'}`}>
+        <div className={`grid grid-cols-1 sm:grid-cols-2 gap-6 max-w-3xl mx-auto transition-all duration-700 delay-300 ${visible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-8'}`}>
           {socialPosts.map((post, index) => {
             const config = platformConfig[post.platform];
             return (
@@ -106,20 +96,13 @@ export default function SocialSection() {
                   <span className="text-xs text-gray-400">{post.date}</span>
                 </div>
 
-                {/* Post image placeholder */}
-                <div className="relative h-44 bg-gradient-to-br from-orange-50 to-orange-100 flex items-center justify-center">
-                  <div className="opacity-20">
-                    {post.platform === 'youtube' ? (
-                      <Play size={48} className="text-red-500"/>
-                    ) : (
+                {/* Post image */}
+                <div className="relative h-44 bg-gradient-to-br from-orange-50 to-orange-100 overflow-hidden">
+                  {post.image ? (
+                    <img src={post.image} alt={post.content.substring(0, 40)} className="w-full h-full object-cover"/>
+                  ) : (
+                    <div className="flex items-center justify-center h-full opacity-20">
                       <config.icon/>
-                    )}
-                  </div>
-                  {post.platform === 'youtube' && (
-                    <div className="absolute inset-0 flex items-center justify-center">
-                      <div className="w-14 h-14 rounded-full bg-red-600 flex items-center justify-center shadow-lg opacity-80">
-                        <Play size={24} className="text-white ml-1"/>
-                      </div>
                     </div>
                   )}
                 </div>

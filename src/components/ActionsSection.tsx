@@ -1,7 +1,6 @@
 'use client';
 
 import { useRef, useEffect, useState } from 'react';
-import Image from 'next/image';
 import { Calendar, ArrowRight, Zap, Filter } from 'lucide-react';
 import { actionCards } from '@/data/site-data';
 
@@ -72,22 +71,40 @@ export default function ActionsSection() {
               onMouseLeave={() => setHoveredCard(null)}
             >
               {/* Image */}
-              <div className="relative h-52 bg-gradient-to-br from-orange-100 to-orange-50 overflow-hidden">
-                <div className="absolute inset-0 flex items-center justify-center">
+              <div className="relative h-52 overflow-hidden bg-gradient-to-br from-orange-100 to-orange-50">
+                {action.image ? (
+                  <img
+                    src={action.image}
+                    alt={action.title}
+                    className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
+                    onError={(e) => {
+                      const target = e.currentTarget;
+                      target.style.display = 'none';
+                      const parent = target.parentElement;
+                      if (parent) {
+                        const fallback = parent.querySelector('.img-fallback') as HTMLElement;
+                        if (fallback) fallback.style.display = 'flex';
+                      }
+                    }}
+                  />
+                ) : null}
+                {/* Fallback placeholder */}
+                <div className="img-fallback absolute inset-0 items-center justify-center"
+                  style={{ display: action.image ? 'none' : 'flex' }}>
                   <div className="text-center opacity-30">
                     <div className="w-16 h-16 rounded-2xl gradient-orange mx-auto flex items-center justify-center">
                       <Zap size={28} className="text-white"/>
                     </div>
                   </div>
                 </div>
-                {/* Category overlay */}
-                <div className="absolute top-3 left-3">
+                {/* Category badge */}
+                <div className="absolute top-3 left-3 z-10">
                   <span className="bg-white/90 backdrop-blur-sm text-orange-600 text-xs font-semibold px-3 py-1.5 rounded-full shadow-sm border border-orange-100">
                     {action.category}
                   </span>
                 </div>
                 {/* Hover overlay */}
-                <div className={`absolute inset-0 gradient-orange opacity-0 group-hover:opacity-10 transition-opacity duration-300`}/>
+                <div className="absolute inset-0 gradient-orange opacity-0 group-hover:opacity-10 transition-opacity duration-300"/>
               </div>
 
               {/* Content */}

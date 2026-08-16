@@ -1,36 +1,192 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# Portal Institucional - Fondo de Ahorro SNTE Sección 51
+## Mtro. Omar Castañeda Ramiro · Director General
 
-## Getting Started
+Portal web institucional de nivel premium para el Director General del Fondo de Ahorro para las y los Trabajadores de la Educación de la Sección 51 del SNTE.
 
-First, run the development server:
+---
 
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
+## 🚀 Tecnologías
+
+- **Next.js 16** (App Router + Turbopack)
+- **React 19** + TypeScript
+- **Tailwind CSS v4**
+- **Framer Motion** — Animaciones
+- **Lucide React** — Iconografía
+- **Swiper** — Carruseles
+- **Prisma ORM** + **PostgreSQL** — Base de datos
+- **NextAuth.js** — Autenticación segura
+- **bcryptjs** — Encriptación de contraseñas
+
+---
+
+## 📂 Estructura del proyecto
+
+```
+src/
+├── app/
+│   ├── page.tsx              ← Página principal
+│   ├── layout.tsx            ← Layout raíz con SEO
+│   ├── globals.css           ← Estilos globales
+│   └── admin/                ← Panel de administración
+│       ├── layout.tsx        ← Layout + autenticación
+│       ├── page.tsx          ← Dashboard
+│       ├── news/             ← Gestión de noticias
+│       ├── actions/          ← Acciones del director
+│       ├── gallery/          ← Galería de fotos
+│       ├── transparency/     ← Documentos
+│       ├── testimonials/     ← Testimonios
+│       ├── regions/          ← Regiones del mapa
+│       ├── stats/            ← Estadísticas
+│       ├── users/            ← Usuarios y roles
+│       ├── hero/             ← Hero / Banner inicio
+│       └── settings/         ← Configuración general
+├── components/               ← Componentes del sitio
+│   ├── Navbar.tsx
+│   ├── HeroSection.tsx
+│   ├── DirectorMessage.tsx
+│   ├── TimelineSection.tsx
+│   ├── ActionsSection.tsx
+│   ├── StatsSection.tsx
+│   ├── NewsSection.tsx
+│   ├── GallerySection.tsx
+│   ├── MapSection.tsx
+│   ├── TransparencySection.tsx
+│   ├── TestimonialsSection.tsx
+│   ├── SocialSection.tsx
+│   ├── ContactSection.tsx
+│   └── Footer.tsx
+├── data/
+│   └── site-data.ts          ← Datos del sitio (editables)
+└── types/
+    └── index.ts              ← Tipos TypeScript
+prisma/
+└── schema.prisma             ← Esquema de base de datos
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+---
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+## ⚡ Inicio rápido
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+### 1. Instalar dependencias
+```bash
+npm install --legacy-peer-deps
+```
 
-## Learn More
+### 2. Configurar variables de entorno
+```bash
+cp .env.example .env.local
+# Editar .env.local con tus valores
+```
 
-To learn more about Next.js, take a look at the following resources:
+### 3. Configurar base de datos (opcional para desarrollo)
+```bash
+# Con PostgreSQL instalado:
+npm run db:push
+```
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+### 4. Iniciar servidor de desarrollo
+```bash
+node node_modules/next/dist/bin/next dev
+```
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+Abrir: **http://localhost:3000**
 
-## Deploy on Vercel
+---
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+## 🔐 Panel de Administración
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+URL: **http://localhost:3000/admin**
+
+**Credenciales de demostración:**
+- Usuario: `admin`
+- Contraseña: `snte51admin`
+
+> ⚠️ Cambiar las credenciales antes de ir a producción.
+
+### Módulos disponibles:
+| Módulo | Descripción |
+|--------|-------------|
+| Hero/Banner | Foto, título y texto del Director |
+| Noticias | Crear, editar y publicar noticias |
+| Acciones | Registrar actividades institucionales |
+| Galería | Subir y organizar fotos/videos |
+| Transparencia | Documentos descargables |
+| Estadísticas | Contadores animados |
+| Testimonios | Aprobar/moderar testimonios |
+| Regiones | Cobertura en el mapa |
+| Usuarios | Roles: Admin, Editor, Consulta |
+| Configuración | Datos de contacto y redes |
+
+---
+
+## 🗄️ Base de datos
+
+El proyecto usa **PostgreSQL + Prisma**. Modelos disponibles:
+- `User` — Usuarios del panel
+- `News` — Noticias
+- `Action` — Acciones del director
+- `GalleryItem` — Galería
+- `TransparencyDoc` — Documentos
+- `Testimonial` — Testimonios
+- `Region` — Regiones atendidas
+- `Stat` — Estadísticas
+- `SiteConfig` — Configuración general
+
+---
+
+## 🌐 Secciones del portal
+
+1. **Navbar** — Fija, responsive, con indicador de sección activa
+2. **Hero** — Foto del director, stats flotantes, CTA
+3. **Mensaje del Director** — Con firma digital
+4. **Trayectoria** — Timeline horizontal/vertical animado
+5. **Acciones** — Grid de tarjetas con filtros
+6. **Estadísticas** — Contadores animados al hacer scroll
+7. **Noticias** — Tipo periódico digital con buscador
+8. **Galería** — Masonry con lightbox y filtros
+9. **Mapa de Cobertura** — SVG interactivo del estado de Puebla
+10. **Transparencia** — Tarjetas de descarga de documentos
+11. **Testimonios** — Carrusel automático
+12. **Redes Sociales** — Posts recientes
+13. **Contacto** — Formulario + mapa + datos institucionales
+14. **Footer** — Links, redes y copyright
+
+---
+
+## 📸 Agregar fotografías
+
+Colocar imágenes en la carpeta `public/images/`:
+
+```
+public/images/
+├── director.jpg          ← Foto principal hero
+├── director-circle.jpg   ← Foto circular mensaje
+├── actions/              ← Fotos de acciones
+├── news/                 ← Fotos de noticias
+├── gallery/              ← Galería
+├── testimonials/         ← Avatares testimonios
+└── regions/              ← Fotos de regiones
+```
+
+---
+
+## 🚢 Despliegue en producción
+
+### Vercel (recomendado)
+```bash
+npm install -g vercel
+vercel
+```
+
+### Variables de entorno en producción:
+```
+DATABASE_URL=postgresql://...
+NEXTAUTH_SECRET=...
+NEXTAUTH_URL=https://tu-dominio.com
+```
+
+---
+
+## 📝 Licencia
+
+© 2026 Fondo de Ahorro para las y los Trabajadores de la Educación · Sección 51 SNTE · Puebla, México.

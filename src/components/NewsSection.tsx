@@ -86,11 +86,11 @@ export default function NewsSection() {
           {featured && (
             <article className="lg:col-span-2 group bg-white rounded-2xl overflow-hidden shadow-card hover:shadow-card-hover transition-all duration-300 border border-gray-100 cursor-pointer">
               {/* Image */}
-              <div className="relative h-64 bg-gradient-to-br from-orange-100 to-orange-50">
-                <div className="absolute inset-0 flex items-center justify-center opacity-20">
-                  <Newspaper size={80} className="text-orange-400"/>
-                </div>
-                <div className="absolute top-4 left-4 flex gap-2">
+              <div className="relative h-64 bg-gradient-to-br from-orange-100 to-orange-50 overflow-hidden">
+                {featured.image && (
+                  <img src={featured.image} alt={featured.title} className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"/>
+                )}
+                <div className="absolute top-4 left-4 flex gap-2 z-10">
                   <span className="bg-orange-500 text-white text-xs font-bold px-3 py-1.5 rounded-full shadow-md">
                     DESTACADA
                   </span>
@@ -128,8 +128,14 @@ export default function NewsSection() {
                 className="group flex gap-4 bg-white rounded-2xl p-4 shadow-card hover:shadow-card-hover transition-all duration-300 border border-gray-100 cursor-pointer"
               >
                 {/* Small image */}
-                <div className="w-20 h-20 rounded-xl bg-gradient-to-br from-orange-100 to-orange-50 flex-shrink-0 flex items-center justify-center overflow-hidden">
-                  <Newspaper size={28} className="text-orange-300"/>
+                <div className="w-20 h-20 rounded-xl bg-gradient-to-br from-orange-100 to-orange-50 flex-shrink-0 overflow-hidden">
+                  {news.image ? (
+                    <img src={news.image} alt={news.title} className="w-full h-full object-cover"/>
+                  ) : (
+                    <div className="w-full h-full flex items-center justify-center">
+                      <Newspaper size={28} className="text-orange-300"/>
+                    </div>
+                  )}
                 </div>
 
                 {/* Content */}

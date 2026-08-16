@@ -80,99 +80,107 @@ export default function TimelineSection() {
           ))}
         </div>
 
-        {/* Timeline */}
-        <div className="relative">
-          {/* Center line */}
-          <div className="hidden lg:block absolute left-1/2 top-0 bottom-0 w-px bg-gradient-to-b from-orange-300 via-orange-200 to-transparent -translate-x-1/2"/>
+        {/* Timeline desktop: dos columnas alternas con línea central */}
+        <div className="relative hidden lg:block">
+          {/* Línea central */}
+          <div className="absolute left-1/2 top-0 bottom-0 w-0.5 bg-gradient-to-b from-orange-300 via-orange-200 to-transparent -translate-x-1/2"/>
 
-          <div className="space-y-8 lg:space-y-0">
+          <div className="space-y-10">
             {timelineItems.map((item, index) => {
               const IconComponent = iconMap[item.icon] || Star;
               const isLeft = index % 2 === 0;
               const isVisible = visibleItems.includes(index);
 
               return (
-                <div key={index} className={`relative lg:grid lg:grid-cols-2 lg:gap-8 lg:mb-12 transition-all duration-600 ${
-                  isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-8'
-                }`}>
-                  
-                  {/* Left column content (even items) */}
-                  <div className={`${isLeft ? 'lg:pr-12' : 'lg:col-start-2 lg:pr-0 lg:pl-12'}`}>
-                    {(isLeft || true) && (
-                      <div className={`group bg-white rounded-2xl p-6 shadow-card hover:shadow-card-hover transition-all duration-300 border border-gray-100 hover:border-orange-200 ${
-                        isLeft ? 'lg:text-right' : 'lg:text-left'
-                      } ${isLeft ? '' : 'lg:col-start-2'}`}>
-                        
-                        {/* Category badge */}
+                <div
+                  key={index}
+                  className={`relative flex items-center gap-0 transition-all duration-500 ${
+                    isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-6'
+                  }`}
+                >
+                  {/* Columna izquierda */}
+                  <div className="w-1/2 pr-10">
+                    {isLeft && (
+                      <div className="group bg-white rounded-2xl p-6 shadow-card hover:shadow-card-hover transition-all duration-300 border border-gray-100 hover:border-orange-200 text-right">
                         <span className={`inline-block px-3 py-1 rounded-full text-xs font-medium border mb-3 ${categoryColors[item.category]}`}>
                           {categoryLabels[item.category]}
                         </span>
-
-                        {/* Year */}
-                        <div className={`flex items-center gap-2 mb-2 ${isLeft ? 'lg:justify-end' : 'justify-start'}`}>
-                          <span className="text-2xl font-bold gradient-text">{item.year}</span>
-                        </div>
-
-                        {/* Icon + Title */}
-                        <div className={`flex items-center gap-3 mb-3 ${isLeft ? 'lg:justify-end' : 'justify-start'}`}>
-                          <div className="w-10 h-10 rounded-xl gradient-orange flex items-center justify-center shadow-md group-hover:scale-110 transition-transform">
+                        <div className="text-2xl font-bold gradient-text mb-2">{item.year}</div>
+                        <div className="flex items-center justify-end gap-3 mb-3">
+                          <h3 className="font-bold text-gray-800 text-base leading-tight">{item.title}</h3>
+                          <div className="w-10 h-10 rounded-xl gradient-orange flex items-center justify-center shadow-md flex-shrink-0 group-hover:scale-110 transition-transform">
                             <IconComponent size={18} className="text-white"/>
                           </div>
-                          <h3 className="font-bold text-gray-800 text-base leading-tight max-w-xs">{item.title}</h3>
                         </div>
-
                         <p className="text-gray-500 text-sm leading-relaxed">{item.description}</p>
                       </div>
                     )}
                   </div>
 
-                  {/* Center dot */}
-                  <div className="hidden lg:block absolute left-1/2 top-8 w-5 h-5 rounded-full gradient-orange -translate-x-1/2 border-3 border-white shadow-md z-10"
-                    style={{border: '3px solid white'}}
+                  {/* Punto central */}
+                  <div
+                    className="absolute left-1/2 -translate-x-1/2 w-5 h-5 rounded-full gradient-orange z-10 flex-shrink-0"
+                    style={{ border: '3px solid white', boxShadow: '0 0 0 3px rgba(244,121,32,0.2)' }}
                   />
 
-                  {/* Right column placeholder for odd items */}
-                  {isLeft && <div className="hidden lg:block"/>}
-                </div>
-              );
-            })}
-          </div>
-
-          {/* Mobile timeline (stacked) */}
-          <div className="lg:hidden space-y-4">
-            {timelineItems.map((item, index) => {
-              const IconComponent = iconMap[item.icon] || Star;
-              const isVisible = visibleItems.includes(index);
-
-              return (
-                <div key={index} className={`flex gap-4 transition-all duration-500 ${isVisible ? 'opacity-100 translate-x-0' : 'opacity-0 -translate-x-4'}`}>
-                  {/* Left line */}
-                  <div className="flex flex-col items-center flex-shrink-0">
-                    <div className="w-10 h-10 rounded-xl gradient-orange flex items-center justify-center shadow-md">
-                      <IconComponent size={18} className="text-white"/>
-                    </div>
-                    {index < timelineItems.length - 1 && (
-                      <div className="w-px h-full bg-orange-200 mt-2"/>
-                    )}
-                  </div>
-
-                  {/* Content */}
-                  <div className="pb-8 flex-1">
-                    <div className="bg-white rounded-2xl p-5 shadow-card border border-gray-100">
-                      <div className="flex items-center gap-2 mb-2">
-                        <span className="text-xl font-bold gradient-text">{item.year}</span>
-                        <span className={`px-2 py-0.5 rounded-full text-xs font-medium border ${categoryColors[item.category]}`}>
+                  {/* Columna derecha */}
+                  <div className="w-1/2 pl-10">
+                    {!isLeft && (
+                      <div className="group bg-white rounded-2xl p-6 shadow-card hover:shadow-card-hover transition-all duration-300 border border-gray-100 hover:border-orange-200 text-left">
+                        <span className={`inline-block px-3 py-1 rounded-full text-xs font-medium border mb-3 ${categoryColors[item.category]}`}>
                           {categoryLabels[item.category]}
                         </span>
+                        <div className="text-2xl font-bold gradient-text mb-2">{item.year}</div>
+                        <div className="flex items-center gap-3 mb-3">
+                          <div className="w-10 h-10 rounded-xl gradient-orange flex items-center justify-center shadow-md flex-shrink-0 group-hover:scale-110 transition-transform">
+                            <IconComponent size={18} className="text-white"/>
+                          </div>
+                          <h3 className="font-bold text-gray-800 text-base leading-tight">{item.title}</h3>
+                        </div>
+                        <p className="text-gray-500 text-sm leading-relaxed">{item.description}</p>
                       </div>
-                      <h3 className="font-bold text-gray-800 text-sm mb-2">{item.title}</h3>
-                      <p className="text-gray-500 text-xs leading-relaxed">{item.description}</p>
-                    </div>
+                    )}
                   </div>
                 </div>
               );
             })}
           </div>
+        </div>
+
+        {/* Timeline mobile: apilado con línea lateral */}
+        <div className="lg:hidden space-y-4">
+          {timelineItems.map((item, index) => {
+            const IconComponent = iconMap[item.icon] || Star;
+            const isVisible = visibleItems.includes(index);
+
+            return (
+              <div key={index} className={`flex gap-4 transition-all duration-500 ${isVisible ? 'opacity-100 translate-x-0' : 'opacity-0 -translate-x-4'}`}>
+                {/* Eje lateral */}
+                <div className="flex flex-col items-center flex-shrink-0">
+                  <div className="w-10 h-10 rounded-xl gradient-orange flex items-center justify-center shadow-md">
+                    <IconComponent size={18} className="text-white"/>
+                  </div>
+                  {index < timelineItems.length - 1 && (
+                    <div className="w-0.5 flex-1 bg-orange-200 mt-2"/>
+                  )}
+                </div>
+
+                {/* Contenido */}
+                <div className="pb-8 flex-1">
+                  <div className="bg-white rounded-2xl p-5 shadow-card border border-gray-100">
+                    <div className="flex items-center gap-2 mb-2">
+                      <span className="text-xl font-bold gradient-text">{item.year}</span>
+                      <span className={`px-2 py-0.5 rounded-full text-xs font-medium border ${categoryColors[item.category]}`}>
+                        {categoryLabels[item.category]}
+                      </span>
+                    </div>
+                    <h3 className="font-bold text-gray-800 text-sm mb-2">{item.title}</h3>
+                    <p className="text-gray-500 text-xs leading-relaxed">{item.description}</p>
+                  </div>
+                </div>
+              </div>
+            );
+          })}
         </div>
       </div>
     </section>

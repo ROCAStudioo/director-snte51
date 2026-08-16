@@ -25,9 +25,10 @@ const categoryColors: Record<string, string> = {
 export default function GallerySection() {
   const sectionRef = useRef<HTMLElement>(null);
   const [visible, setVisible] = useState(false);
-  const [activeFilter, setActiveFilter] = useState('all');
   const [lightboxOpen, setLightboxOpen] = useState(false);
   const [lightboxIndex, setLightboxIndex] = useState(0);
+
+  const filtered = galleryItems;
 
   useEffect(() => {
     const observer = new IntersectionObserver(
@@ -48,10 +49,6 @@ export default function GallerySection() {
     window.addEventListener('keydown', handleKey);
     return () => window.removeEventListener('keydown', handleKey);
   }, [lightboxOpen]);
-
-  const filtered = activeFilter === 'all'
-    ? galleryItems
-    : galleryItems.filter(g => g.category === activeFilter);
 
   const openLightbox = (index: number) => {
     setLightboxIndex(index);
@@ -75,24 +72,6 @@ export default function GallerySection() {
           </p>
           <div className="w-16 h-1 gradient-orange rounded-full mx-auto mt-4"/>
         </div>
-
-        {/* Filters */}
-        <div className={`flex flex-wrap justify-center gap-2 mb-10 transition-all duration-700 delay-200 ${visible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-8'}`}>
-          {categoryFilters.map(filter => (
-            <button
-              key={filter.key}
-              onClick={() => setActiveFilter(filter.key)}
-              className={`px-4 py-2 rounded-full text-sm font-medium transition-all duration-200 ${
-                activeFilter === filter.key
-                  ? 'gradient-orange text-white shadow-md'
-                  : 'bg-white text-gray-600 border border-gray-200 hover:border-orange-300 hover:text-orange-500'
-              }`}
-            >
-              {filter.label}
-            </button>
-          ))}
-        </div>
-
         {/* Masonry grid */}
         <div className={`masonry-grid transition-all duration-700 delay-300 ${visible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-8'}`}>
           {filtered.map((item, index) => (
@@ -103,39 +82,14 @@ export default function GallerySection() {
             >
               {/* Aspect ratio box */}
               <div
-                className="w-full bg-gradient-to-br from-orange-100 to-orange-50"
+                className="w-full bg-gradient-to-br from-orange-100 to-orange-50 relative"
                 style={{ paddingBottom: `${(item.height / item.width) * 100}%` }}
               >
-                <div className="absolute inset-0 flex items-center justify-center">
-                  {item.type === 'video' ? (
-                    <div className="flex flex-col items-center gap-2 opacity-30">
-                      <Play size={40} className="text-orange-500"/>
-                    </div>
-                  ) : (
-                    <div className="opacity-20">
-                      <Camera size={40} className="text-orange-400"/>
-                    </div>
-                  )}
-                </div>
-              </div>
-
-              {/* Hover overlay */}
-              <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300">
-                <div className="absolute bottom-0 left-0 right-0 p-4">
-                  <span className={`text-xs font-medium px-2 py-1 rounded-full ${categoryColors[item.category]}`}>
-                    {labelFor(item.category)}
-                  </span>
-                  <p className="text-white text-sm mt-1 font-medium">{item.alt}</p>
-                </div>
-                <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2">
-                  <div className="w-12 h-12 rounded-full bg-white/20 backdrop-blur-sm flex items-center justify-center border border-white/30">
-                    {item.type === 'video' ? (
-                      <Play size={20} className="text-white"/>
-                    ) : (
-                      <ZoomIn size={20} className="text-white"/>
-                    )}
-                  </div>
-                </div>
+                <img
+                  src={item.src}
+                  alt={item.alt}
+                  className="absolute inset-0 w-full h-full object-cover"
+                />
               </div>
             </div>
           ))}
@@ -181,17 +135,15 @@ export default function GallerySection() {
             className="max-w-4xl w-full max-h-full"
             onClick={e => e.stopPropagation()}
           >
-            <div className="bg-gradient-to-br from-orange-100 to-orange-50 rounded-2xl overflow-hidden" style={{ minHeight: '400px' }}>
-              <div className="flex items-center justify-center h-96">
-                <div className="text-center opacity-30">
-                  <Camera size={80} className="text-orange-400 mx-auto mb-2"/>
-                  <p className="text-orange-600">{filtered[lightboxIndex]?.alt}</p>
-                </div>
-              </div>
+            <div className="rounded-2xl overflow-hidden">
+              <img
+                src={filtered[lightboxIndex]?.src}
+                alt={filtered[lightboxIndex]?.alt}
+                className="w-full max-h-[80vh] object-contain"
+              />
             </div>
             <div className="text-center mt-4">
-              <p className="text-white font-medium">{filtered[lightboxIndex]?.alt}</p>
-              <p className="text-gray-400 text-sm mt-1">{lightboxIndex + 1} / {filtered.length}</p>
+              <p className="text-gray-400 text-sm">{lightboxIndex + 1} / {filtered.length}</p>
             </div>
           </div>
 

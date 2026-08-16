@@ -1,35 +1,18 @@
 'use client';
 
-import { useEffect, useRef } from 'react';
-import Image from 'next/image';
-import { ArrowRight, ChevronDown, Play, Star, Users, Award } from 'lucide-react';
+import { useRef } from 'react';
+import { ArrowRight, ChevronDown, Play } from 'lucide-react';
 import { siteConfig } from '@/data/site-data';
 
 export default function HeroSection() {
-  const heroRef = useRef<HTMLDivElement>(null);
-
-  useEffect(() => {
-    const handleMouseMove = (e: MouseEvent) => {
-      if (!heroRef.current) return;
-      const { clientX, clientY } = e;
-      const { innerWidth, innerHeight } = window;
-      const x = (clientX / innerWidth - 0.5) * 20;
-      const y = (clientY / innerHeight - 0.5) * 10;
-      const pattern = heroRef.current.querySelector('.pattern-hero') as HTMLElement;
-      if (pattern) {
-        pattern.style.transform = `translate(${x}px, ${y}px)`;
-      }
-    };
-    window.addEventListener('mousemove', handleMouseMove);
-    return () => window.removeEventListener('mousemove', handleMouseMove);
-  }, []);
+  const heroRef = useRef<HTMLElement>(null);
 
   const scrollToNext = () => {
     document.getElementById('director')?.scrollIntoView({ behavior: 'smooth' });
   };
 
   return (
-    <section id="inicio" ref={heroRef} className="relative min-h-screen flex items-center overflow-hidden bg-white">
+    <section id="inicio" ref={heroRef} className="relative min-h-screen flex items-center bg-white" style={{ overflowX: 'hidden', width: '100%', maxWidth: '100%' }}>
       
       {/* Animated Background Pattern */}
       <div className="pattern-hero absolute inset-0 transition-transform duration-700 ease-out pointer-events-none">
@@ -60,56 +43,15 @@ export default function HeroSection() {
           
           {/* Photo Column */}
           <div className="relative order-2 lg:order-1 flex justify-center lg:justify-start">
-            {/* Main photo container */}
-            <div className="relative w-72 h-96 sm:w-80 sm:h-[440px] lg:w-[380px] lg:h-[520px]">
-              {/* Background card */}
-              <div className="absolute -inset-4 rounded-3xl gradient-orange opacity-10 blur-xl"/>
-              <div className="absolute inset-0 rounded-3xl overflow-hidden shadow-2xl border-4 border-white">
-                <div className="w-full h-full bg-gradient-to-br from-orange-100 via-orange-50 to-white flex items-center justify-center">
-                  {/* Placeholder for director photo */}
-                  <div className="text-center p-8">
-                    <div className="w-32 h-32 rounded-full bg-gradient-to-br from-orange-400 to-orange-600 mx-auto flex items-center justify-center mb-4">
-                      <span className="text-white text-4xl font-bold">OC</span>
-                    </div>
-                    <p className="text-orange-600 font-semibold text-sm">Foto del Director</p>
-                    <p className="text-gray-400 text-xs mt-1">Reemplazar con foto oficial</p>
-                  </div>
-                </div>
-              </div>
-
-              {/* Floating badge 1 */}
-              <div className="absolute -top-4 -right-4 glass-orange rounded-2xl px-4 py-3 shadow-lg border border-orange-100">
-                <div className="flex items-center gap-2">
-                  <div className="w-8 h-8 rounded-full bg-orange-100 flex items-center justify-center">
-                    <Star size={16} className="text-orange-500 fill-orange-500"/>
-                  </div>
-                  <div>
-                    <p className="text-xs font-bold text-gray-800">98%</p>
-                    <p className="text-xs text-gray-500">Satisfacción</p>
-                  </div>
-                </div>
-              </div>
-
-              {/* Floating badge 2 */}
-              <div className="absolute -bottom-4 -left-4 glass-orange rounded-2xl px-4 py-3 shadow-lg border border-orange-100">
-                <div className="flex items-center gap-2">
-                  <div className="w-8 h-8 rounded-full bg-orange-100 flex items-center justify-center">
-                    <Users size={16} className="text-orange-500"/>
-                  </div>
-                  <div>
-                    <p className="text-xs font-bold text-gray-800">+25,000</p>
-                    <p className="text-xs text-gray-500">Socios atendidos</p>
-                  </div>
-                </div>
-              </div>
-
-              {/* Floating badge 3 */}
-              <div className="absolute top-1/2 -left-8 glass rounded-2xl px-3 py-2 shadow-lg border border-gray-100">
-                <div className="flex items-center gap-2">
-                  <Award size={16} className="text-orange-500"/>
-                  <p className="text-xs font-semibold text-gray-700">Director General</p>
-                </div>
-              </div>
+            <div className="relative rounded-3xl overflow-hidden shadow-2xl border-4 border-white"
+              style={{ width: '340px', height: '460px' }}>
+              <img
+                src="/images/director.jpg"
+                alt="Mtro. Omar Castañeda Ramiro - Director General"
+                className="w-full h-full object-cover object-center"
+              />
+              {/* Glow sutil */}
+              <div className="absolute inset-0 rounded-3xl ring-1 ring-orange-200 pointer-events-none"/>
             </div>
           </div>
 
@@ -145,24 +87,6 @@ export default function HeroSection() {
             <p className="text-gray-600 text-base sm:text-lg leading-relaxed max-w-lg">
               {siteConfig.director.bio}
             </p>
-
-            {/* Stats row */}
-            <div className="flex gap-6 py-4 border-y border-gray-100">
-              <div>
-                <p className="text-2xl font-bold text-orange-500">+25K</p>
-                <p className="text-xs text-gray-500">Trabajadores</p>
-              </div>
-              <div className="w-px bg-gray-200"/>
-              <div>
-                <p className="text-2xl font-bold text-orange-500">150+</p>
-                <p className="text-xs text-gray-500">Jornadas</p>
-              </div>
-              <div className="w-px bg-gray-200"/>
-              <div>
-                <p className="text-2xl font-bold text-orange-500">$500M</p>
-                <p className="text-xs text-gray-500">Administrados</p>
-              </div>
-            </div>
 
             {/* CTAs */}
             <div className="flex flex-col sm:flex-row gap-3">
