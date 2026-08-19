@@ -28,7 +28,6 @@ export default function HomePage() {
       <DirectorMessage />
       <TimelineSection />
       <ActionsSection />
-      <StatsSection />
       <NewsSection />
       <GallerySection />
       <MapSection />
