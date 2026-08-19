@@ -38,6 +38,7 @@ Juntos, seguiremos construyendo un fondo más sólido, más cercano y más compr
     instagram: 'https://instagram.com/oficialmtroomar',
     tiktok: 'https://tiktok.com/@oficialmtroomar',
     twitter: 'https://x.com/oficialmtroomar',
+    youtube: 'https://youtube.com/@oficialmtroomar',
   },
 };
 
