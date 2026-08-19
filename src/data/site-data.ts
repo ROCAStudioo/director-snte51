@@ -34,8 +34,10 @@ Juntos, seguiremos construyendo un fondo más sólido, más cercano y más compr
     mapLng: -98.1981,
   },
   social: {
-    facebook: 'https://facebook.com/fondoahorrosnte51',
-    instagram: 'https://instagram.com/fondoahorrosnte51',
+    facebook: 'https://facebook.com/oficialmtroomar',
+    instagram: 'https://instagram.com/oficialmtroomar',
+    tiktok: 'https://tiktok.com/@oficialmtroomar',
+    twitter: 'https://x.com/oficialmtroomar',
   },
 };
 
